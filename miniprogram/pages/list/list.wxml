@@ -1,0 +1,49 @@
+
+<import  src="../../templates/login-popup.wxml" />
+<view>
+    <van-search placeholder="请输入搜索关键词" />
+    <scroll-view scroll-x="" class="list-box">
+        <view wx:for="{{data}}" class="list">
+            <text>{{item.title}}</text>
+            <text>{{item.desc}}</text>
+            <text>{{item.create_time}}</text>
+        </view>
+    </scroll-view>
+    <image class="add-button" bindtap="addItem" src="../../images/Add-Basket.png" />
+    <van-dialog
+        use-slot
+        title="添建组团"
+        show="{{ visible }}"
+        show-cancel-button
+        async-close
+        confirm-button-open-type="getUserInfo"
+        bind:getuserinfo="getUserInfo"
+        bind:confirm="confirmClick"
+        bind:cancel="cancelClick"
+        >
+        
+        <van-cell-group>
+            <van-field
+                value="{{ title }}"
+                required
+                clearable
+                label="组队名称"
+                placeholder="组队标题"
+                bind:change="onChangeTitle"
+                error-message="{{!title&&hasSubmit?'必填':''}}"
+            />
+            <van-field
+                value="{{ desc }}"
+                type="desc"
+                label="备注"
+                placeholder="请输入备注内容"
+                required
+                border="{{ false }}"
+                bind:change="onChangeDesc"
+                error-message="{{!desc&&hasSubmit?'必填':''}}"
+            />
+        </van-cell-group>
+    </van-dialog>
+    <van-toast id="van-toast" />
+    <template name="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+</view>
